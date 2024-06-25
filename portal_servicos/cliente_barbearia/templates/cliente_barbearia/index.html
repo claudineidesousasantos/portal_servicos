@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cliente Barbearia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        {% if messages %}
+            <div class="alert alert-success" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <h1>Bem-vindo, {{ usuario.username }}</h1>
+        <!-- Dados do Usuário -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2>Seus Dados</h2>
+                {% if barbearia %}
+                    <p><strong>Você está logado na Barbearia:</strong> {{ barbearia.nome }}</p>
+                {% else %}
+                    <p><strong>Você não está associado a nenhuma barbearia.</strong></p>
+                {% endif %}
+                <p><strong>Nome Completo:</strong> {{ usuario.first_name }} {{ usuario.last_name }}</p>
+                <p><strong>Email:</strong> {{ usuario.email }}</p>
+                <p><strong>Telefone:</strong> {{ usuario.telefone }}</p>
+                <p><strong>Cliente Portal:</strong> {{ usuario.is_client_portal }}</p>
+                <p><strong>Cliente App:</strong> {{ usuario.is_client_app }}</p>
+                <a href="{% url 'gestao_barbearia:index' %}" class="btn btn-primary mt-3">Voltar para Gestão Barbearia</a>
+            </div>
+        </div>
+        <!-- Lista de Funcionários -->
+        {% if barbearia %}
+            <div class="card">
+                <div class="card-body">
+                    <h2>Funcionários da Barbearia</h2>
+                    <div class="row">
+                        {% for funcionario in funcionarios %}
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ funcionario.user.username }}</h5>
+                                        <p class="card-text">{{ funcionario.funcao }}</p>
+                                        <a href="{% url 'cliente_barbearia:agendar' funcionario.id %}" class="btn btn-primary">Agendar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

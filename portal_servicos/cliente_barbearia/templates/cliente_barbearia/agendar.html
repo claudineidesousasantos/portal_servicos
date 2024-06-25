@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agendar Serviço</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.0.0/css/tempus-dominus.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+        }
+        .card {
+            margin-top: 20px;
+        }
+        .btn-primary {
+            width: 100%;
+        }
+        .tempus-dominus-widget {
+            z-index: 1050; /* Ensure the widget is above other elements */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h3>Agendar Serviço com {{ funcionario.user.username }}</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.servico.label_tag }}<br>
+                        {{ form.servico }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.data_hora.label_tag }}<br>
+                        <div class="input-group date" id="datetimepicker1" data-td-target-input="nearest" data-td-target-toggle="nearest">
+                            <input type="text" name="data_hora" class="form-control datetimepicker-input" data-td-target="#datetimepicker1" placeholder="Selecione a data e hora">
+                            <div class="input-group-append" data-td-target="#datetimepicker1" data-td-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Agendar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.0.0/js/tempus-dominus.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'), {
+                display: {
+                    components: {
+                        calendar: true,
+                        date: true,
+                        month: true,
+                        year: true,
+                        decades: true,
+                        clock: true,
+                        hours: true,
+                        minutes: true,
+                        seconds: false,
+                        useTwentyfourHour: true
+                    },
+                    icons: {
+                        time: 'fa fa-clock',
+                        date: 'fa fa-calendar',
+                        up: 'fa fa-arrow-up',
+                        down: 'fa fa-arrow-down',
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-calendar-check-o',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-times'
+                    },
+                    sideBySide: true
+                },
+                restrictions: {
+                    minTime: new Date().setHours(6, 0, 0, 0),
+                    maxTime: new Date().setHours(19, 0, 0, 0),
+                    step: 30
+                }
+            });
+        });
+    </script>
+</body>
+</html>

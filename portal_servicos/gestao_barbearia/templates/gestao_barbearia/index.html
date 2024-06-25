@@ -1,0 +1,114 @@
+{% extends "base_gestao_barbearia.html" %}
+
+    {% block 'body' %}
+        <div class="container mt-5">
+            {% if barbearia %}
+                <h1 class="mb-4">Bem-vindo à Gestão da Barbearia: {{ barbearia.nome }}</h1>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>Informações da Barbearia</h2>
+                        <p><strong>Nome:</strong> {{ barbearia.nome }}</p>
+                        <p><strong>Tipo de Assinatura:</strong> {{ barbearia.tipo_assinatura }}</p>
+                        <p><strong>Assinatura Ativa:</strong> {{ barbearia.assinatura_ativa }}</p>
+                        <p><strong>Aberto:</strong> {{ barbearia.aberto }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h2>Funcionários</h2>
+                        <ul class="list-group">
+                            {% for funcionario in funcionarios %}
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        {{ funcionario.user.username }} -  
+                                            {% for funcao in funcoes %}  {{ funcao.nome }}  - 
+                                                {% for servico in funcao.servicos %}  {{ servico.nome }} {% endfor %}
+                                            {% endfor %}
+                                        <span>
+                                            <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                                            <a href="#" class="btn btn-sm btn-danger">Remover</a>
+                                            <a href="{% url 'gestao_barbearia:visualizar_agenda' funcionario.id %}" class="btn btn-sm btn-info">Visualizar Agenda</a>
+                                        </span>
+                                    </div>
+                                    <ul class="list-group mt-2">
+                                        {% for servico in funcionario.servicos %}
+                                            <li class="list-group-item">
+                                                {{ servico.nome }} - {{ servico.descricao }} - {{ servico.duracao }} - R$ {{ servico.preco }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <a href="#" class="btn btn-primary mt-3">Adicionar Funcionário</a>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-12">
+                        <h2>Acesso ao App Cliente Barbearia</h2>
+                        <a href="{% url 'gestao_barbearia:acessar_cliente_app' barbearia.id %}" 
+                        class="btn btn-success">Ir para Cliente Barbearia</a>
+                    </div>
+                </div>
+            {% else %}
+                <h1 class="mb-4">Bem-vindo à Gestão da Barbearia</h1>
+                <p>Você não tem uma barbearia associada.</p>
+            {% endif %}
+        </div>
+    {% endblock %}
+    
+    {% block 'dropdown_user_info' %}   
+        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+        aria-labelledby="userDropdown">
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+            Profile
+        </a>
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+            Settings
+        </a>
+        <a class="dropdown-item" href="#">
+            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+            Activity Log
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+            Logout
+        </a>
+        </div>
+    {% endblock %}
+
+    {% block 'logoutmodal' %}  
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <form id="logout-form" action="{% url 'gestao_barbearia:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    {% endblock %}
+
+
+    {% block 'footer' %}
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Your Website 2020</span>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
