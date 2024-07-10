@@ -9,6 +9,8 @@ class CustomUserCreationForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'password', 'email', 'first_name', 'last_name')
+        search_fields = ('username',)
+        list_per_page = 10
 
     def save(self, commit=True):
         user = super().save(commit=False)

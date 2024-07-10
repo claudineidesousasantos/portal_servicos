@@ -1,0 +1,50 @@
+# Sistema operacional
+*.log
+*.pot
+*.pyc
+__pycache__/
+*.swp
+.DS_Store
+
+# Diretórios de ambientes virtuais
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Diretórios de IDEs
+.idea/
+.vscode/
+*.sublime-workspace
+
+# Configurações e chaves locais
+*.env
+.env.*
+
+# Arquivos de bancos de dados locais
+db.sqlite3
+
+# Arquivos e diretórios de migrações
+*/migrations/__pycache__/
+*/migrations/*.pyc
+*/migrations/*.py, !*/migrations/__init__.py
+
+# Arquivos e diretórios de mídia e estáticos
+media/
+staticfiles/
+static/
+
+# Arquivos e diretórios de testes e cobertura
+htmlcov/
+.tox/
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Arquivos de distribuição
+dist/
+build/
+*.egg-info/
