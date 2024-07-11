@@ -4,7 +4,20 @@ from portal.models import CustomUser
 from django import forms
 from .forms import FuncionarioForm
 
+class CustomUserCreationForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'password', 'email', 'first_name', 'last_name')
+        search_fields = ('username',)
+        list_per_page = 10
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+        
 class FuncionarioAdmin(admin.ModelAdmin):
     form = FuncionarioForm
     list_display = ['user', 'barbearia']
@@ -17,7 +30,6 @@ class FuncionarioAdmin(admin.ModelAdmin):
 class FuncaoAdmin(admin.ModelAdmin):
     list_display = ['nome', 'descricao']
     search_fields = ['nome']
-
 
 admin.site.register(Funcao, FuncaoAdmin)
 admin.site.register(Funcionario, FuncionarioAdmin)

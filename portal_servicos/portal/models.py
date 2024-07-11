@@ -16,14 +16,14 @@ class Barbearia(models.Model):
         return self.nome
 
 class CustomUser(AbstractUser):
-    is_owner_portal = models.BooleanField('Admin Portal', default=False)
-    is_owner_app = models.BooleanField('Admin App', default=False)
-    is_staff_portal = models.BooleanField('Funcionario Portal', default=False)
-    is_staff_app = models.BooleanField('Funcionario App', default=False)
+    is_owner_portal = models.BooleanField('Adm Portal', default=False)
+    is_owner_app = models.BooleanField('Adm App', default=False)
+    is_staff_portal = models.BooleanField('Func. Portal', default=False)
+    is_staff_app = models.BooleanField('Func. App', default=False)
     is_client_portal = models.BooleanField('Cliente Portal', default=False)
     is_client_app = models.BooleanField('Cliente App', default=False)
     is_active = models.BooleanField('Ativo', default=True)
-    telefone = models.CharField('Telefone', max_length=15, blank=True, null=True)
+    telefone = models.CharField('Telefone', max_length=12, blank=True, null=True)
     barbearias = models.ManyToManyField(Barbearia, related_name='clientes')
 
     groups = models.ManyToManyField(
