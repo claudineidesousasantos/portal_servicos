@@ -34,7 +34,6 @@ class Agendamento(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE, related_name='agendamentos')
     servico = models.ForeignKey(Servico, on_delete=models.CASCADE)
     data_hora = models.DateTimeField()
-    duracao = models.DurationField()
 
     class Meta:
         unique_together = ['funcionario', 'data_hora']
